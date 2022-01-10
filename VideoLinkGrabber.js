@@ -1,3 +1,4 @@
+//Search for the selected links
 function grabVideoLinks(){
     var videos = document.querySelectorAll("div video")
     const videoLink = [""];
@@ -7,6 +8,7 @@ function grabVideoLinks(){
     showLinks(videoLink);
 }
 
+//Display all detected links
 function showLinks(videoLink){
     var outerModalDiv = document.createElement("div");
     var innerModalDiv = document.createElement("div");
