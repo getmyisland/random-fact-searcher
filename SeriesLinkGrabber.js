@@ -14,7 +14,7 @@ async function grabLinks(links) {
     const videoList = [];
     for (const link of links) {
         console.log("New link!")
-        var sources = await getVideoSources(link);
+        const sources = await getVideoSources(link);
         videoList.push(...sources);
     }
     console.log(videoList);
@@ -28,8 +28,8 @@ function getVideoSources(link) {
             openedWindow.focus();
             openedWindow.addEventListener("DOMContentLoaded", () => {
                 try {
-                    var videoElements = openedWindow.document.querySelectorAll("div video");
-                    var source = videoElements[0].src;
+                    const videoElements = openedWindow.document.querySelectorAll("div video");
+                    var source = videoElements[0].getVideoSources;
                     console.log(source)
                     resolve(source);
                 } catch (e) {
