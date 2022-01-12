@@ -1,9 +1,9 @@
 function getLinks() {
     for (var h4 of document.querySelectorAll("h4")) {
-        if (h4.textContent.includes("Season7 :")) {
+        if (h4.textContent.includes("Season1 :")) {
             console.log(h4.textContent + " " + h4);
 
-            var links = h4.parentNode.querySelectorAll("div a"); //Search inside this element for links
+            const links = h4.parentNode.querySelectorAll("div a"); //Search inside this element for links
             
             grabLinks(links)
         }
@@ -13,7 +13,8 @@ function getLinks() {
 async function grabLinks(links) {
     const videoList = [];
     for (const link of links) {
-        const sources = await getVideoSources(link);
+        console.log("New link!")
+        var sources = await getVideoSources(link);
         videoList.push(...sources);
     }
     console.log(videoList);
@@ -22,18 +23,22 @@ async function grabLinks(links) {
 
 function getVideoSources(link) {
     return new Promise((resolve, reject) => {
-        const openedWindow = window.open(link, "_blank").focus();
-        openedWindow.addEventListener("DOMContentLoaded", () => {
-            try {
-                const videoElements = openedWindow.document.querySelectorAll("div video");
-                const sources = Array.from(videoElements, element => element.currentSrc || element.src);
-                resolve(sources);
-            } catch (e) {
-                reject(e);
-            } finally {
-                openedWindow.close();
-            }
-        });
+        console.log("Opening Window");
+            const openedWindow = window.open(link, "_blank");
+            openedWindow.focus();
+            openedWindow.addEventListener("DOMContentLoaded", () => {
+                try {
+                    var videoElements = openedWindow.document.querySelectorAll("div video");
+                    var source = videoElements[0].src;
+                    console.log(source)
+                    resolve(source);
+                } catch (e) {
+                    reject(e);
+                } finally {
+                    openedWindow.close();
+                    console.log("Closing Window");
+                }
+            });
     });
 }
 
