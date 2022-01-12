@@ -6,8 +6,8 @@ function getLinks() {
             var links = h4.parentNode.querySelectorAll("div a"); //Search inside this element for links
             
             grabLinks(links)
-        }
-    }
+        };
+    };
 }
 
 async function grabLinks(links) {
@@ -15,21 +15,26 @@ async function grabLinks(links) {
     for (const link of links) {
         const sources = await getVideoSources(link);
         videoList.push(...sources);
-    }
+    };
     console.log(videoList);
     showLinks(videoList)
 }
 
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
 function getVideoSources(link) {
     return new Promise((resolve, reject) => {
-        const openedWindow = window.open(link, "_blank").focus();
-        openedWindow.addEventListener("DOMContentLoaded", () => {
+        var openedWindow = window.open(link, "_blank").focus();
+        delay(5000).then(() => {
             try {
-                const videoElements = openedWindow.document.querySelectorAll("div video");
-                const sources = Array.from(videoElements, element => element.currentSrc || element.src);
+                var videoElements = document.querySelectorAll("div video");
+                var sources = Array.from(videoElements, element => element.currentSrc || element.src);
                 resolve(sources);
             } catch (e) {
                 reject(e);
+                
             } finally {
                 openedWindow.close();
             }
@@ -66,7 +71,7 @@ function showLinks(videoList){
         var p = document.createElement("p");
         p.innerHTML = videoList[i];
         innerModalDiv.appendChild(p);
-    }
+    };
 
     outerModalDiv.appendChild(innerModalDiv);
     document.body.appendChild(outerModalDiv);
